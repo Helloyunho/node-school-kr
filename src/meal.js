@@ -1,10 +1,10 @@
 /**
  * meal.js
- * 
+ *
  * @description 교육청에서 급식 정보 파싱 후 json 데이터를 반환합니다.
  * @author Leegeunhyeok
  * @version 2.2.1
- * 
+ *
  */
 
 const request = require('request')
@@ -19,16 +19,16 @@ class Meal {
    */
   async getData (url, defaultMealValue) {
     try {
-      let body = await new Promise((resolve, reject) => {
+      const body = await new Promise((resolve, reject) => {
         request(url, (err, res, body) => {
-          if(err) {
+          if (err) {
             reject(err)
           }
           resolve(body)
         })
       })
-      
-      let $ = cheerio.load(body, {decodeEntities: false})
+
+      const $ = cheerio.load(body, { decodeEntities: false })
 
       // 급식 데이터 갯수 카운트, 반복하며 1씩 증가 (오늘 급식 데이터를 )
       let count = 1
@@ -79,16 +79,16 @@ class Meal {
       }
 
       /* 결과 저장 객체 */
-      let result = {
+      const result = {
         year,
         month,
         day
       }
-      
+
       $('tbody > tr > td').each(function () {
         if ($(this).text().match(/^[0-9]{1,2}/)) {
-          let html = $(this).html().replace(/^<div>/, '').replace(/<\/div>$/, '')
-          let date = html.match(/^[0-9]{1,2}/)[0]
+          const html = $(this).html().replace(/^<div>/, '').replace(/<\/div>$/, '')
+          const date = html.match(/^[0-9]{1,2}/)[0]
           let menu = html.replace(/^[0-9]{1,2}<br>/, '').replace(/<br>/g, '\n')
 
           // 급식이 없을 경우 빈 문자열로 설정
@@ -106,9 +106,9 @@ class Meal {
           count++
         }
       })
-      result['today'] = today // 오늘의 급식
+      result.today = today // 오늘의 급식
       return result
-    } catch(e) {
+    } catch (e) {
       /* 에러 핸들링 */
       console.error(e)
       return {}

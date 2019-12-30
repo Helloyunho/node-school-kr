@@ -1,6 +1,6 @@
 /**
  * sample.js
- * 
+ *
  * @description 샘플 테스트 코드입니다.
  * @version 2.2.2
  */
@@ -16,7 +16,7 @@ const school = new School()
  * Type    : 병설유치원, 초, 중, 고
  * Region     : 교육청 지역
  * schoolCode : 학교 고유 번호
- * 
+ *
  * 학교 고유번호는 아래 링크에서 검색 가능 (삭제됨)
  * (추후 학교코드 검색 스크립트 추가 예정)
  *
@@ -39,10 +39,10 @@ const test = async function () {
   // 년도와 월을 입력하지 않으면 이번 달 데이터를 조회하는 타겟 URL을 반환합니다.
   console.log(school.getTargetURL('calendar') + '\n')
 
-  /* 
+  /*
     2018년 5월 급식 데이터를 불러옵니다.
     const meal = await school.getMeal(2018, 5)
-    
+
     년도와 월을 인자로 전달하지 않을 경우 이번 달 데이터를 조회합니다.
     const meal = await school.getMeal()
   */

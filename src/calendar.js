@@ -21,7 +21,7 @@ class Calendar {
     try {
       const body = await new Promise((resolve, reject) => {
         request(url, (err, res, body) => {
-          if(err) {
+          if (err) {
             reject(err)
           }
           resolve(body)
@@ -73,7 +73,7 @@ class Calendar {
         }
       })
       return result
-    } catch(e) {
+    } catch (e) {
       /* 에러 핸들링 */
       console.error(e)
       return {}
