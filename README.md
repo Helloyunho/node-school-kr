@@ -1,21 +1,26 @@
 # node-school-kr
+
 > 전국 초, 등, 고등학교 및 병설유치원 급식, 학사일정 파싱 라이브러리
 
 [![npm version](https://badge.fury.io/js/node-school-kr.svg)](https://badge.fury.io/js/node-school-kr)
 
-본 라이브러리는 `Node.js` 환경에서 사용할 수 있는 Promise 기반의 `급식 API` + `학사일정 API` 통합 라이브러리 입니다.  
-  
+본 라이브러리는 `Node.js` 환경에서 사용할 수 있는 Promise 기반의 `급식 API` + `학사일정 API` 통합 라이브러리 입니다.
+
 전국 교육청 학생 서비스 페이지(stu.xxx.go.kr)를 파싱하여 이번 달 **학사일정**과 **급식 정보**를 JSON 데이터로 제공합니다.
 
 ## 설치하기
+
 [NPM](https://www.npmjs.com/package/node-school-kr) 저장소를 통해 다운로드 받을 수 있으며 별다른 작업 없이 바로 사용 가능합니다.
+
 ```bash
 npm i node-school-kr
 ```
 
 ## 테스트
+
 아래 명령어를 입력하여 미리 작성된 예제 코드를 실행해볼 수 있습니다.  
 `sample/sample.js` 코드가 실행되며, 학교는 `광명경영회계고등학교` 기준으로 실행됩니다.
+
 ```bash
 npm test
 ```
@@ -23,117 +28,101 @@ npm test
 ## 개발 문서
 
 ### School
+
+| Parameter  |  Type  | Required |
+| :--------- | :----: | :------: |
+| type       | Symbol |    O     |
+| region     | Symbol |    O     |
+| schoolCode | string |    O     |
+
 모듈을 불러오면 School 클래스의 인스턴스를 생성할 수 있습니다.
+
 ```javascript
 const School = require('node-school-kr')
-new School()
+new School(type, region, schoolCode)
 ```
-- - -
+
+예제는 [클래스 생성](#클래스-생성) 참조
+
+---
 
 ### School.Type
+
 [학교 종류](#학교-종류) 참조
-- - -
+
+---
 
 ### School.Region
+
 [교육청 관할 지역](#교육청-관할-지역) 참조
-- - -
 
-### (Method) School.init
-인스턴스 정보를 초기화 합니다.
-> ※ 인스턴스 초기화는 인스턴스당 1회만 가능합니다.  
-> 설정 정보를 변경하려면 `reset`을 사용해주세요
-
-| Parameter | Type | Required |
-|:--|:--:|:--:|
-| type | Symbol | O |
-| region | Symbol | O |
-| schoolCode | string | O |
-
-Return type: `void`
-
-```javascript
-const school = new School()
-school.init(type, region, schoolCode)
-```
-예제는 [인스턴스 초기화](#인스턴스-초기화) 참조
-- - -
-
-### (Method) School.reset
-인스턴스 정보를 재설정 합니다.
-> ※ 인스턴스 초기화 이후에만 재설정 할 수 있습니다.
-
-| Parameter | Type | Required |
-|:--|:--:|:--:|
-| type | Symbol | O |
-| region | Symbol | O |
-| schoolCode | string | O |
-
-Return type: `void`
-
-```javascript
-...
-
-school.reset(type, region, schoolCode)
-```
-예제는 [인스턴스 재설정](#인스턴스-재설정) 참조
-- - -
+---
 
 ### (Method) School.getTargetURL
+
 지정한 Type의 데이터를 파싱하는 타겟 URL을 반환합니다.  
 년도와 월을 지정하지 않을 경우 **이번 년도 / 달** 데이터를 파싱하는 타겟 URL을 반환합니다.
 
-| Parameter | Type | Required |
-|:--|:--:|:--:|
-| type | string | O |
-| year | number | X |
-| month | number | X |
+| Parameter |  Type  | Required |
+| :-------- | :----: | :------: |
+| type      | string |    O     |
+| year      | number |    X     |
+| month     | number |    X     |
 
 Return type: `string`
 
 ```javascript
 school.getTargetURL(type, year, month)
 ```
+
 예제는 [타겟 URL 조회](#타겟-URL-조회) 참조
-- - -
+
+---
 
 ### (Method) School.getMeal
-이번 달 또는 지정한 년도/월의 급식 데이터를 반환합니다  
-년도와 월을 지정하지 않을 경우 **이번 년도 / 달** 데이터를 반환합니다.  
 
-| Parameter | Type | Required |
-|:--|:--:|:--:|
-| year | number | X |
-| month | number | X |
+이번 달 또는 지정한 년도/월의 급식 데이터를 반환합니다  
+년도와 월을 지정하지 않을 경우 **이번 년도 / 달** 데이터를 반환합니다.
+
+| Parameter |  Type  | Required |
+| :-------- | :----: | :------: |
+| year      | number |    X     |
+| month     | number |    X     |
 
 Return type: [참고](#급식-데이터-형식)
 
 ```javascript
 school.getMeal(year, month)
 ```
+
 예제는 [급식 및 학사일정 조회](#급식-및-학사일정-조회) 참조
-- - -
+
+---
 
 ### (Method) School.getCalendar
+
 이번 달 또는 지정한 년도/월의 학사일정 데이터를 반환합니다  
 년도와 월을 지정하지 않을 경우 **이번 년도 / 달** 데이터를 반환합니다.
 
-| Parameter | Type | Required |
-|:--|:--:|:--:|
-| year | number | X |
-| month | number | X |
+| Parameter |  Type  | Required |
+| :-------- | :----: | :------: |
+| year      | number |    X     |
+| month     | number |    X     |
 
 Return type: [참고](#학사일정-데이터-형식)
 
 ```javascript
 school.getCalendar(year, month)
 ```
-예제는 [급식 및 학사일정 조회](#급식-및-학사일정-조회) 참조
-- - -
 
+예제는 [급식 및 학사일정 조회](#급식-및-학사일정-조회) 참조
+
+---
 
 ## 사용 방법
 
 ### School 인스턴스 생성
+
 `node-school-kr` 모듈을 불러온 후 인스턴스를 생성합니다.  
 생성 후 반드시 `init()`를 호출하여 데이터를 조회할 학교로 초기화합니다.
 
@@ -141,19 +130,18 @@ school.getCalendar(year, month)
 
 ```javascript
 const School = require('node-school-kr')
-const school = new School()
-
-/* 
-* @param type: 학교 유형(초, 중, 고, 병설유치원) 
+/*
+* @param type: 학교 유형(초, 중, 고, 병설유치원)
 * @param region: 교육청 관할 지역
 * @param schoolCode: 학교 고유 코드
 */
-school.init(/* Type */, /* Region */, /* SchoolCode */)
+const school = new School(/* Type */, /* Region */, /* SchoolCode */)
 ```
 
 #### 학교 종류
 
- 학교 종류는 `School.Type` 에서 선택할 수 있습니다.
+학교 종류는 `School.Type` 에서 선택할 수 있습니다.
+
 ```javascript
 const School = require('node-school-kr')
 
@@ -161,41 +149,43 @@ const School = require('node-school-kr')
 console.log(School.Type.HIGH)
 ```
 
-| 유형 | Key | Value |
-|:---:|:---|:---:|
-| 병설유치원 | `KINDERGARTEN` | 1 |
-| 초등학교 | `ELEMENTARY` | 2 |
-| 중학교 | `MIDDLE` | 3 |
-| 고등학교 | `HIGH` | 4 |
+|    유형    | Key            | Value |
+| :--------: | :------------- | :---: |
+| 병설유치원 | `KINDERGARTEN` |   1   |
+|  초등학교  | `ELEMENTARY`   |   2   |
+|   중학교   | `MIDDLE`       |   3   |
+|  고등학교  | `HIGH`         |   4   |
 
 #### 교육청 관할 지역
 
- 지역은 생성한 `School.Region` 에서 선택할 수 있습니다. 
+지역은 생성한 `School.Region` 에서 선택할 수 있습니다.
+
 ```javascript
 const School = require('node-school-kr')
 
 /* stu.sen.go.kr */
 console.log(School.Region.SEOUL)
 ```
-| 지역 | Key | Value |
-|:---:|:---|:---|
-| 서울 | `SEOUL` | stu.sen.go.kr |
-| 인천 | `INCHEON` | stu.ice.go.kr |
-| 부산 | `BUSAN` | stu.pen.go.kr |
-| 광주 | `GWANGJU` | stu.gen.go.kr |
-| 대전 | `DAEJEON` | stu.dge.go.kr |
-| 대구 | `DEAGU` | stu.dge.go.kr |
-| 세종 | `SEJONG` | stu.sje.go.kr |
-| 울산 | `ULSAN` | stu.use.go.kr |
-| 경기 | `GYEONGGI` | stu.goe.go.kr |
-| 강원 | `KANGWON` | stu.kwe.go.kr |
-| 충북 | `CHUNGBUK` | stu.cbe.go.kr |
-| 충남 | `CHUNGNAM` | stu.cne.go.kr |
+
+| 지역 | Key         | Value         |
+| :--: | :---------- | :------------ |
+| 서울 | `SEOUL`     | stu.sen.go.kr |
+| 인천 | `INCHEON`   | stu.ice.go.kr |
+| 부산 | `BUSAN`     | stu.pen.go.kr |
+| 광주 | `GWANGJU`   | stu.gen.go.kr |
+| 대전 | `DAEJEON`   | stu.dge.go.kr |
+| 대구 | `DEAGU`     | stu.dge.go.kr |
+| 세종 | `SEJONG`    | stu.sje.go.kr |
+| 울산 | `ULSAN`     | stu.use.go.kr |
+| 경기 | `GYEONGGI`  | stu.goe.go.kr |
+| 강원 | `KANGWON`   | stu.kwe.go.kr |
+| 충북 | `CHUNGBUK`  | stu.cbe.go.kr |
+| 충남 | `CHUNGNAM`  | stu.cne.go.kr |
 | 경북 | `GYEONGBUK` | stu.gbe.go.kr |
 | 경남 | `GYEONGNAM` | stu.gne.go.kr |
-| 전북 | `JEONBUK` | stu.jbe.go.kr |
-| 전남 | `JEONNAM` | stu.jne.go.kr |
-| 제주 | `JEJU` | stu.jje.go.kr |
+| 전북 | `JEONBUK`   | stu.jbe.go.kr |
+| 전남 | `JEONNAM`   | stu.jne.go.kr |
+| 제주 | `JEJU`      | stu.jje.go.kr |
 
 ## 학교 코드
 
@@ -204,6 +194,7 @@ console.log(School.Region.SEOUL)
 (곧 학교 검색 스크립트가 라이브러리에 추가될 예정입니다.)
 
 ## 사용 예시
+
 ※ 아래 예제는 경기도의 `광명경영회계고등학교`를 기준으로 진행됩니다.
 
 - Promise를 기반으로 하여 비동기 함수(Async/Await)에서 사용 가능
@@ -212,36 +203,31 @@ console.log(School.Region.SEOUL)
 - init() 는 생성된 인스턴스당 `1회만` 가능
 - reset() 을 통해 다른 학교 정보로 `재설정` 가능
 
-### 인스턴스 초기화
-```javascript
-const School = require('node-school-kr') 
-const school = new School()
+### 클래스 생성
 
-school.init(School.Type.HIGH, School.Region.GYEONGGI, 'J100000488')
-```
-
-### 인스턴스 재설정
 ```javascript
 const School = require('node-school-kr')
-const school = new School()
-
-/* 경기도 광명시의 광명고등학교로 init() */
-school.init(School.Type.HIGH, School.Region.GYEONGGI,  'J100000482')
-
-/* 경기도 광명시의 광명경영회계고등학교로 재설정하는 코드 */
-school.reset(School.Type.HIGH, School.Region.GYEONGGI, 'J100000488')
+const school = new School(
+  School.Type.HIGH,
+  School.Region.GYEONGGI,
+  'J100000488'
+)
 ```
 
 ### 타겟 URL 조회
-급식 / 학사일정 정보는 타겟 URL에 접속하여 데이터를 파싱합니다.
-```javascript
-const School = require('node-school-kr') 
-const school = new School()
 
-school.init(School.Type.HIGH, School.Region.GYEONGGI, 'J100000488')
+급식 / 학사일정 정보는 타겟 URL에 접속하여 데이터를 파싱합니다.
+
+```javascript
+const School = require('node-school-kr')
+const school = new School(
+  School.Type.HIGH,
+  School.Region.GYEONGGI,
+  'J100000488'
+)
 
 // 급식, 학사일정 데이터 파싱 타겟 페이지 URL
-console.log(school.getTargetURL('meal', 2018, 5))  // 년도와 월 지정 가능
+console.log(school.getTargetURL('meal', 2018, 5)) // 년도와 월 지정 가능
 console.log(school.getTargetURL('calendar')) // 지정하지 않을 경우 이번 달로 설정 됨
 
 /*
@@ -253,13 +239,16 @@ https://stu.goe.go.kr/sts_sci_sf01_001.do?schulCode=J100000488&schulCrseScCode=4
 ### 급식 및 학사일정 조회
 
 #### 사용 예시
+
 ```javascript
-const School = require('node-school-kr') 
-const school = new School()
+const School = require('node-school-kr')
+const school = new School(
+  School.Type.HIGH,
+  School.Region.GYEONGGI,
+  'J100000488'
+)
 
-school.init(School.Type.HIGH, School.Region.GYEONGGI, 'J100000488')
-
-const sampleAsync = async function() {
+const sampleAsync = async () => {
   const meal = await school.getMeal()
   const calendar = await school.getCalendar()
 
@@ -300,42 +289,42 @@ const sampleAsync = async function() {
 sampleAsync()
 ```
 
-
-samplePromise()
-```
-
 ### 급식 데이터 형식
+
 `getMeal` 반환 데이터 형식은 아래와 같습니다.
 
-| Key | Value | 비고 |
-|:--|:--:|:--|
-| 1 ~ 31 | 해당 날짜의 급식 | 급식이 없는 경우 option.default 값 혹은  빈 문자열 |
-| month | 이번 달 | |
-| day | 오늘 날짜 | 사용자 지정 년도/월이 이번 달이 아닌 경우 0 |
-| today | 오늘 급식 | 급식이 없는 경우 빈 문자열 |
+| Key    |      Value       | 비고                                              |
+| :----- | :--------------: | :------------------------------------------------ |
+| 1 ~ 31 | 해당 날짜의 급식 | 급식이 없는 경우 option.default 값 혹은 빈 문자열 |
+| month  |     이번 달      |                                                   |
+| day    |    오늘 날짜     | 사용자 지정 년도/월이 이번 달이 아닌 경우 0       |
+| today  |    오늘 급식     | 급식이 없는 경우 빈 문자열                        |
+
 ```javascript
 {
   '1': '[중식]\n발아현미밥\n미역국5.6.9....', // 이번달 1일 메뉴
-  '2': '[중식]\n얼갈이된장무침5.6.\n칼슘찹쌀....', // 이번달 2일 메뉴 
+  '2': '[중식]\n얼갈이된장무침5.6.\n칼슘찹쌀....', // 이번달 2일 메뉴
   '3': '[중식]\n투움바파스타(주식)1.2.5.6.9.13.15.\n....', // 이번달 3일 메뉴
   '4': '', // 급식이 없을 경우 option.default 값 혹은 빈 문자열
   '5': '',
   ...
   'year': 2018, // 이번 년도
   'month': 5,   // 이번 달
-  'day': 3,     // 오늘 날짜 
+  'day': 3,     // 오늘 날짜
   'today': '[중식]\n투움바파스타(주식)1.2.5.6.9.13.15.\n....' // 오늘 메뉴
 }
 ```
 
 ### 학사일정 데이터 형식
+
 `getCalendar` 반환 데이터 형식은 아래와 같습니다.
 
-| Key | Value | 비고 |
-|:--|:--:|:--|
+| Key    |      Value       | 비고                                              |
+| :----- | :--------------: | :------------------------------------------------ |
 | 1 ~ 31 | 해당 날짜의 일정 | 일정이 없는 경우 option.default 값 혹은 빈 문자열 |
-| year | 이번 년도 | |
-| month | 이번 달 | |
+| year   |    이번 년도     |                                                   |
+| month  |     이번 달      |                                                   |
+
 ```javascript
 {
   '1': '', // 이번 달 1일의 일정
@@ -352,9 +341,14 @@ samplePromise()
 ```
 
 ## 문제 신고
+
 교육청 홈페이지의 리뉴얼 등의 문제로 파싱이 불가능 할 수 있습니다. [이슈](https://github.com/leegeunhyeok/node-school-kr/issues)를 남겨주시면 최대한 빠르게 수정하여 반영하도록 하겠습니다.
 
 ## 변경사항
+
+- `2.2.1`
+  - Standard 오류 수정
+  - init, reset 등을 constructor에 합침
 - `2.2.0`
   - [Issue #3](https://github.com/leegeunhyeok/node-school-kr/issues/3) 기본값 옵션 추가
   - `getMeal`, `getCalendar` 옵션 호출방식 추가
@@ -386,8 +380,9 @@ samplePromise()
 - `1.0.0` - 첫 번째 릴리즈!
 
 ## 라이센스
+
 [MIT](https://github.com/agemor/school-api/blob/master/LICENSE)
 
-
 ## 정보
+
 본 프로젝트는 [School API](https://github.com/agemor/school-api)를 참고하여 Node.js 환경에서 사용할 수 있도록 새로 포팅한 프로젝트입니다.
