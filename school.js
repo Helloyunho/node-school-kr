@@ -138,7 +138,7 @@ class School {
    * @param {number} month 지정한 달
    * @return {any} 이번 달 급식 데이터
    */
-  getMeal (year, month) {
+  async getMeal (year, month) {
     let option = {}
     if (typeof year === 'object') {
       option = year
@@ -160,10 +160,11 @@ class School {
     if (this._initialized) {
       option = option || {}
       const defaultMealValue = option.default || ''
-      return this._meal.getData(
+      const meal = await this._meal.getData(
         this.createUrl('meal', year, month),
         defaultMealValue
       )
+      return meal
     } else {
       throw new Error('인스턴스가 초기화 되지 않았습니다.')
     }
@@ -175,7 +176,7 @@ class School {
    * @param {number} month 지정한 달
    * @return {any} 이번 달 학사일정 데이터
    */
-  getCalendar (year, month) {
+  async getCalendar (year, month) {
     let option = {}
     if (typeof year === 'object') {
       option = year
@@ -197,10 +198,11 @@ class School {
     if (this._initialized) {
       option = option || {}
       const defaultCalendarValue = option.default || ''
-      return this._calendar.getData(
+      const calendar = this._calendar.getData(
         this.createUrl('calendar', year, month),
         defaultCalendarValue
       )
+      return calendar
     } else {
       throw new Error('인스턴스가 초기화 되지 않았습니다.')
     }
